@@ -10,6 +10,10 @@ public class TagBehaviour : MonoBehaviour
     private bool _isTagger;
     [SerializeField]
     private GameObject _tagMarker;
+    [SerializeField]
+    private GameObject _explosion;
+    [SerializeField]
+    private float _spawnDelay = 3;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -18,8 +22,18 @@ public class TagBehaviour : MonoBehaviour
             _isTagger = !_isTagger;
 
             if (_isTagger)
-                transform.position = _spawnPoint.position;
+            {
+                Instantiate(_explosion, transform.position, transform.rotation);
+                Invoke("Respawn", _spawnDelay);
+                gameObject.SetActive(false);
+            }
         }
+    }
+
+    private void Respawn()
+    {
+        gameObject.SetActive(true);
+        transform.position = _spawnPoint.position;
     }
 
     // Update is called once per frame

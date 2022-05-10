@@ -527,6 +527,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2142556276560111951, guid: 4e840cbc7e163b84ea9590a5d0fd0d93, type: 3}
+      propertyPath: _explosion
+      value: 
+      objectReference: {fileID: 2920853531726552743, guid: 815506d3fa3e1644999cb2de55e8f46d, type: 3}
+    - target: {fileID: 2142556276560111951, guid: 4e840cbc7e163b84ea9590a5d0fd0d93, type: 3}
       propertyPath: _spawnPoint
       value: 
       objectReference: {fileID: 1603611258}
@@ -1138,6 +1142,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 133859469854530341, guid: 4e840cbc7e163b84ea9590a5d0fd0d93, type: 3}
+      propertyPath: _explosion
+      value: 
+      objectReference: {fileID: 2920853531726552743, guid: 815506d3fa3e1644999cb2de55e8f46d, type: 3}
+    - target: {fileID: 2142556276560111951, guid: 4e840cbc7e163b84ea9590a5d0fd0d93, type: 3}
+      propertyPath: _explosion
+      value: 
+      objectReference: {fileID: 2920853531726552743, guid: 815506d3fa3e1644999cb2de55e8f46d, type: 3}
     - target: {fileID: 2142556276560111951, guid: 4e840cbc7e163b84ea9590a5d0fd0d93, type: 3}
       propertyPath: _spawnPoint
       value: 
