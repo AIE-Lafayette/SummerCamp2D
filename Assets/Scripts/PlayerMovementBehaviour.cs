@@ -11,6 +11,8 @@ public class PlayerMovementBehaviour : MonoBehaviour
     private Vector3 _moveDirection;
     [SerializeField]
     private float _jumpForce;
+    [SerializeField]
+    private HoverBehaviour _hoverBehaviour;
 
     // Start is called before the first frame update
     void Start()
@@ -40,5 +42,7 @@ public class PlayerMovementBehaviour : MonoBehaviour
             _moveDirection.x /= 2;
 
         _rigidbody.AddForce(_moveDirection * speed * Time.fixedDeltaTime,ForceMode.VelocityChange);
+
+        _hoverBehaviour.enabled = _rigidbody.velocity.x != 0 && GroundCollider.IsGrounded;
     }
 }
