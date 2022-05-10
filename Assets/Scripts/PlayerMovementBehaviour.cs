@@ -32,6 +32,13 @@ public class PlayerMovementBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position += _moveDirection * _moveSpeed * Time.fixedDeltaTime;
+        _moveDirection.Normalize();
+
+        float speed = _moveSpeed;
+
+        if (!GroundCollider.IsGrounded)
+            _moveDirection.x /= 2;
+
+        _rigidbody.AddForce(_moveDirection * speed * Time.fixedDeltaTime,ForceMode.VelocityChange);
     }
 }
