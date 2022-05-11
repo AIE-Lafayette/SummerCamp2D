@@ -16,6 +16,7 @@ public class TagBehaviour : MonoBehaviour
     private float _spawnDelay = 3;
     [SerializeField]
     private ScreenShakeBehaviour _shakeBehaviour;
+    public int Score;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -43,5 +44,8 @@ public class TagBehaviour : MonoBehaviour
     void Update()
     {
         _tagMarker.SetActive(_isTagger);
+
+        if (!_isTagger)
+            Score++;
     }
 }
