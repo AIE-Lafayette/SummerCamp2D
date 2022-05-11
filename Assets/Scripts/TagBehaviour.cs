@@ -14,6 +14,8 @@ public class TagBehaviour : MonoBehaviour
     private GameObject _explosion;
     [SerializeField]
     private float _spawnDelay = 3;
+    [SerializeField]
+    private ScreenShakeBehaviour _shakeBehaviour;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -24,6 +26,7 @@ public class TagBehaviour : MonoBehaviour
             if (_isTagger)
             {
                 Instantiate(_explosion, transform.position, transform.rotation);
+                _shakeBehaviour.Shake();
                 Invoke("Respawn", _spawnDelay);
                 gameObject.SetActive(false);
             }
