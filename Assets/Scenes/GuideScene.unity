@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 757821616}
   - component: {fileID: 757821615}
   - component: {fileID: 757821614}
+  - component: {fileID: 757821617}
   m_Layer: 0
   m_Name: GroundCollider
   m_TagString: Untagged
@@ -218,6 +219,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757821612}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &757821617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757821612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1344ec932fb8214a8c64122621c2866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsGrounded: 0
 --- !u!1 &1020718441
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +329,7 @@ GameObject:
   - component: {fileID: 1472479560}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -525,7 +539,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Acceleration: 30
   MaxSpeed: 60
-  JumpPower: 30
+  JumpPower: 10
+  GroundCollider: {fileID: 757821617}
 --- !u!114 &1665219139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,3 +553,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64fd663435bc9945a1313b85813c17c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerNum: 0

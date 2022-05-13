@@ -80,10 +80,47 @@ The ground collider shouldn't have solid collision. If it did it would look like
 
 ![BoxCollider](Images\BoxCollider.png)
 
+We'll now need a way to determine whether or not the ground collider is colliding with a walkable surface. To do this, we'll need to label objects in the scene as being walkable objects. Luckily, Unity has a built in system that allows us to give objects labels or "Tags" with ease.
+
+Select the "Floor" game object in the scene. In the top of the inspector window, you should see a value called "Tag" with a dropdown box.
+By default, everything is marked as "Untagged" or not labeled. To change  the label, click the dropdown box.  
+
+![TagMenu](Images\TagMenu.png)
+
+As you can see, Unity comes with some default tags. None of these will be useful to us. Select "Add Tag" to create a new custom tag. This will bring you to the "Tags & Layers" section. Click the plus icon under "Tags" and name the new tag "Walkable Surface".
+
+![WalkableSurface](Images\WalkableSurface.png)
+
+Create a new script, name it "GroundColliderBehaviour", and add the following code:
+
+![GroundColliderBehaviour](Images\GroundColliderBehaviour.png)
 
 
+Here we have created a variable that will store whether or not the character is on the ground. Then we set up our collision functions so that whenever a walkable surface enters our trigger, "IsGrounded" is set to true, and when it leaves our trigger, it is set to false. In other words, the player is only considered on the ground if it is touching something labeled as the ground.
+
+Go back to the player movement script and update to look like this:
+
+![JumpCheck](Images\JumpCheck.png)
+
+Our script has now been updated to include a variable that can store the ground collider. It also includes a check to see if the player is grounded before they are allowed to jump. Go back into Unity and attach the "GroundColliderBehaviour" script to our ground collider object. Afterwards, drag the ground collider object into the slot that says "Ground Collider" on the player's movement component. Play the game, and you'll see that our player now only jumps when they are on the ground.
 
 
+# Adding Multiplayer
+
+Now that we have our player done, we can start actually creating a game of tag. Tag is a game that requires a minimum of two players, so the first thing we'll need to do is duplicate our player. We could simply copy and paste our current player, but that would mean that any changes we wanted to make to player 1, we would have to remember to also make those changes for player 2. This could easily lead to mistakes during later development.
+
+Fortunately Unity has a feature that allows us to easily make a copy of our player, and we only have to make changes in one place. To do this we would have to make our player a prefab. You can think of a prefab as a blueprint for the player. It defines the basic building blocks that all players have, while also allowing us to make changes to players in the scene that make them unique. 
+
+Create a new folder and name it "Characters". To make the player a prefab, drag the player from the hierarchy window into the folder. Drag our new prefab into the scene to make a new copy of the player. Name this object "Player2". 
+
+If we were to play the game now, we would be controlling both players at once. We can solve this by updating our input system. To do this we'll first need to add controls for player 2. Go to "Edit -> Project Settings -> Input Manager" to view the current input axis set up. Expand the second option that says "Horizontal". Rename the axis to "Horizontal2", set its positive and negative buttons to "left" and "right" respectively, and set the type to be "Key or Mouse Button".
+
+![InputAxis](Images\InputAxis.png)
+
+
+Now we'll just need to update our input script so that it can change the inputs to accept based on the player. Update your script so that it looks like the following:
+
+![InputMultiplayer](Images\InputMultiplayer.png)
 
 
 

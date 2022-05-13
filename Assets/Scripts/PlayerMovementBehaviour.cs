@@ -9,6 +9,7 @@ public class PlayerMovementBehaviour : MonoBehaviour
     public float Acceleration;
     public float MaxSpeed;
     public float JumpPower;
+    public GroundColliderBehaviour GroundCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,8 @@ public class PlayerMovementBehaviour : MonoBehaviour
 
     public void Jump()
     {
-        _rigidbody.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
+        if (GroundCollider.IsGrounded)
+            _rigidbody.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
     }
 
     // Update is called once per frame
