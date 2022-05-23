@@ -122,7 +122,9 @@ Now we'll just need to update our input script so that it can change the inputs 
 
 ![InputMultiplayer](Images/InputMultiplayer.png)
 
+We've added a new variable to act as a label for our player. We then updated our input calls so that it changes the buttons required for input based on the player number. If the game object this script is attached to is player 1, we will use default controls. Otherwise if the game object is player 2, we will use player 2 controls. 
 
+Back in Unity, change the "Player Num" variable on the input script for player 1 and player 2 to be "1" and "2" respectively. Afterwards, play the game to test out the controls. You will now be able to control the second player using the arrow keys.
 
 
 
