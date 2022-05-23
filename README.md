@@ -1,7 +1,7 @@
 # Creating Player Movement
 To start, create a platform for the player to walk on. To add a game object to the scene, either right-click or click the plus icon in the hierarchy window and select 3D object -> cube. Name this cube "Floor". 
 
-![Hierarchy](Images\Hierarchy.png)
+![Hierarchy](Images/Hierarchy.png)
 
 Next, we'll increase the size of the cube to give our player more room to move around. If an object or asset is selected, the inspector window will display all of its properties. At the top of the inspector, there is a component labeled Transform. Set the x axis value for scale to be 25.  
 
