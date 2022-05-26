@@ -4,48 +4,38 @@ using UnityEngine;
 
 public class TagBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private Transform _spawnPoint;
-    [SerializeField]
-    private bool _isTagger;
-    [SerializeField]
-    private GameObject _tagMarker;
-    [SerializeField]
-    private GameObject _explosion;
-    [SerializeField]
-    private float _spawnDelay = 3;
-    [SerializeField]
-    private ScreenShakeBehaviour _shakeBehaviour;
-    public int Score;
+    public Transform SpawnPoint;
+    public bool IsTagger;
+    public float SpawnDelay = 3;
+    public float ScoreMultiplier = 3;
+    public float Score;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            _isTagger = !_isTagger;
+        if (collision.gameObject.CompareTag("Player") == false)
+            return;
 
-            if (_isTagger)
-            {
-                Instantiate(_explosion, transform.position, transform.rotation);
-                _shakeBehaviour.Shake();
-                Invoke("Respawn", _spawnDelay);
-                gameObject.SetActive(false);
-            }
+        if (IsTagger == true)
+            IsTagger = false;
+        else
+            IsTagger = true;
+
+        if (IsTagger == true)
+        {
+            Invoke("Respawn", SpawnDelay);
+            gameObject.SetActive(false);
         }
     }
 
     private void Respawn()
     {
         gameObject.SetActive(true);
-        transform.position = _spawnPoint.position;
+        transform.position = SpawnPoint.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        _tagMarker.SetActive(_isTagger);
-
-        if (!_isTagger)
-            Score++;
+        if (!IsTagger)
+            Score += ScoreMultiplier * Time.deltaTime;
     }
 }

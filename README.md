@@ -126,9 +126,82 @@ We've added a new variable to act as a label for our player. We then updated our
 
 Back in Unity, change the "Player Num" variable on the input script for player 1 and player 2 to be "1" and "2" respectively. Afterwards, play the game to test out the controls. You will now be able to control the second player using the arrow keys.
 
+# Adding Tagging
 
+Creating a tag system is pretty simple: all we'll need to do is keep track of who is "it" and transfer that label to the other player when they collide. If we were to follow standard tag rules, our game could potentially get unfair at times. Imagine player 1 is the tagger and collides with player 2. Now in this case we should set player 2 to be the new tagger and it will be first player's turn to run. Since the players are still close to each other in this example, it could be difficult for player 1 to be able to put distance between themselves and player 2. There are few way to address this, like adding an invincibility timer, but it would be easier to set a spawn point for our players on the level. After a player is tagged, we'll teleport them back to the spawn point. 
 
+In the hierarchy tab add select the plus icon and choose "Create Empty". Name this object "Spawn Point". You can place your spawn point where you like, just be sure it's above the platform.
 
+![SpawnPoint](Images/SpawnPoint.png)
 
+Since our object is empty, it will be difficult to keep track of it in our scene. We can fix this by adding an icon to our game object. With the spawn point selected, click the cube in the top left corner of the inspector and select an icon; any icon will do. 
 
+![Icon](Images/Icon.png)
 
+In our code, we'll need to be able to tell if the object a player is touching is another player. So let's create a new tag called "Player" and add it to the player prefab just as we did with the ground. Now we can create a new script that can keep track of who's the tagger, and send the tagged player to the spawn point. Create a new script in the "Scripts" folder and call it "TagBehaviour". Add the following code to the script:
+
+![TagBehaviour](Images/TagBehaviour.png)
+
+First we create three variables: a transform to store a reference to the spawn point, a boolean to store whether or not this player is the tagger, and a float to keep track of how long the game should wait before respawning a player. By default, we can set the spawn delay to be 3 seconds.
+
+We can use Unity's "OnCollisionEnter" function to run code when this player collides with an object. If the object the player collided with isn't another player, it's not important, so we'll use the return keyword to exit the function. If the object is a player, we need to update this player's "IsTagger" boolean. If we touched a player while it was the tagger, then it's the other player's turn to be the tagger, so "IsTagger" is set to false. Otherwise, if this player wasn't the tagger, it must have gotten caught by the tagger, so we set "IsTagger" to true.
+
+We'll need to create a function to respawn the player. In this function, we'll be set the player position to the position of the spawn point. We'll call this function if the player has been set to be the new tagger. It would be nice if this spawn had a bit of a delay to give both players a chance to breathe. To do this, we can use Unity's "Invoke" function. This function calls a function that matches the name we give after a certain amount of time has passed. We'll have this function call the "Respawn" function after the time for the spawn delay has passed.
+
+Back in Unity, add a "TagBehaviour" script to the player prefab we created. This should add the script to both players in the scene. For both playes currently in the scene, drag the spawn point we created earlier into the "Spawn Point" slot on the script. Underneath that slot, you should see the "IsTagger" boolean we created. Check this for the player that you want to be the tagger first. Now if you play, you should see that we can finally play tag!
+
+![Tag](Images/Tag.gif)
+
+# Making an Interesting Scene
+
+Our main game loop is complete, but our game is pretty plain in terms of scenery. To start, lets add some color to our scene. We can give objects different colors by creating "Materials". Create a new folder in the project tab and name it "Materials". Right click in this folder and select "Create -> Material". Name this material "Player1Mat". Click on the material and you should see its properties in the inspector window. By default, materials in our scene are effected by lighting. In our simple game, we don't really need realistic lighting. At the top of the inpector select the "Shader" drop down menu. From here, select "Unlit -> Color". You can choose the whatever color you like. To apply the material, simply drag it on to player 1. Do the same for the ground and the second player.
+
+![Color](Images/InColor.png)
+
+We can also change the color of our background from being the default blue. Select the "Main Camera" game object in the hierarchy. In the inspector, you should see a section called "Background". You can change the color here to match your game. There is also a section underneath called "Size". This increases the area that our camera can see. We can tweak this to zoom out or in to our scene. 
+
+Now it's time to build our level. The level layout can be whatever you want it to be. You can make new platforms and walls the same way we created our floor. Just be sure that surfaces you want the player to be able to walk and jump on are given the "Floor" tag. Otherwise you could prevent player movement on certain platforms. Here's what my level looks like in the scene view and the game view:
+
+![SceneViewLevel](Images/SceneViewLevel.png)
+
+![LevelGameplay](Images/LevelGameplay.gif)
+
+# Making Smoother Movement
+
+Right now the movement in our game feels sticky. This is partly due to the shape of our characters and the amount of air control our player has. Lets address the shape problem first. The square shape for our player makes it hard to accelerate and make it up to platforms. So does this mean we need to change the shape of our player? Well yes and no. When it comes to collisions in game development, we always want to prioritize game feel over accuracy. In other words, our hit boxes don't need to be completely accurate if it allows the player to have more fun. So we'll make the collider for the player a circle while keeping the shape of our player character a square. 
+
+The first thing we want to do is remove the cube visuals from the top level of our player prefab. Open up the player prefab and remove the "Mesh Renderer", "Cube(MeshFilter)", and the "Box Collider" components. You can remove a component by right clicking it and selecting "Remove Component". Now add a "Sphere Collider" component to the player instead. Making the collider a sphere instead of a box will make it a lot easier for the player to get on platforms since they have to be less precise with their jumps. It will also make jumping again after landing on a platform feel a bit more responsive. 
+
+![RemoveMesh](Images/RemoveMesh.png)
+
+Click the plus icon in the hierarchy and add a new cube to the "Player" game object. You can name this cube "Character". This will be the visual representation of our player that won't handle collision. Remove the "Box Collider" component from the cube. You may also need to adjust the ground collider so that our grounded check isn't too generous. If you play the game now, you should notice a huge difference in how the movement feels.
+
+Next, lets address the players tremendous air speed. If our player holds the direction they jumped in, they can still accelerate while not being affected by friction. This makes it to where our player can travel at high speeds easily in air. We can fix this by adding the following changes to our movement script:
+
+![AirDriftReduction](Images/AirDriftReduction.png)
+
+Here we've added a new float to keep track of how much we want to reduce the the acceleration. If the player is not on the ground, we reduce the acceleration value by our set amount. You can tweak this number as you see fit. The higher the number, the more "weight" your jump will have.
+
+# Creating UI
+
+Let's create a score counter for our game. We'll have the score measure how long each player can survive by having the score increase while they aren't the tagger. Click on the plus icon in the hierarchy tab and select "UI -> Canvas". The canvas is a game object that will be overlayed on our camera and contain all of our UI objects. 
+
+Add a text box to our canvas by right clicking on it and selecting "UI -> Text". Name the text box "P1ScoreText". Right now the text is a bit small. We can increase the size of our font by increasing the value in the "Font Size" section in the inspector window. Set the font size to 33. The text should now disappear. This is because the text is now too big to fit in the text box. We can adjust the width and height of the text box in the "Rect Transform" component in the inpector. Set the width to 400 and the height to 55. Now we'll be able to view our large text. You can change the text in the text box by type under the "Text" section in the inspector. Change the text to read "P1 Score: ". You can change the color of the text in the "Text" component in the inspector.
+
+Now we just need to position the text box. I think it would nice if the text box was in the top left corner. We could just drag the text box to the position we want, but there's a more precise way to adjust the position. At the top left of the "Rect Transform" component there should be a square with the words "middle" and "center" around it. This is called an anchor. We can use this to set the origin and the position of our UI element. Click on the square and select the "Top Left" option while holding down the "Alt" key. 
+
+![Anchor](Images/Anchor.png)
+
+Our text box will now move to the top left corner of the canvas. Setting the anchor also ensures that our text box will always stay in the same position regardless of the aspect ratio. We'll need to repeat the same steps for player 2's score counter. This time, you'll want to change the anchor to be in the top right.
+
+![NewTextUI](Images/NewTextUI.png)
+
+Now we'll need to update our tag script so that it keeps track of the score. Add the following code to "TagBehaviour":
+
+![ScoreCode](Images/ScoreCode.png)
+
+We need to add two new variables: one to keep track of our current score, and one to keep track of the amount our score will increase by. We'll then use Unity's update function to check to see if the player isn't the tagger. If they aren't the tagger, we'll increase the score. The "Time.deltaTime" variable is there to ensure our counter counts smoothly instead of rapidly.
+
+Create a new script called "ScoreBehaviour" and add the following code:
+
+![ScoreBehaviour](Images/ScoreBehaviour.png)

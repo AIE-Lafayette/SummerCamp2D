@@ -19,6 +19,6 @@ public class ScoreBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _text.text = _startText + " " + _tagBehaviour.Score;
+        _text.text = _startText + " " + (int)_tagBehaviour.Score;
     }
 }

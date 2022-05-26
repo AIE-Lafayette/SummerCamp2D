@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 332718521904795675}
   - component: {fileID: 2142556276560111951}
   - component: {fileID: 5855073497977850805}
-  - component: {fileID: 4191952789962324582}
+  - component: {fileID: 4895260559908609367}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64fd663435bc9945a1313b85813c17c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerNum: 0
 --- !u!114 &2142556276560111951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,13 +382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b077a9383acca7748afb41e5236e415b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPoint: {fileID: 0}
-  _isTagger: 1
-  _tagMarker: {fileID: 811938059065261780}
-  _explosion: {fileID: 0}
-  _spawnDelay: 3
-  _shakeBehaviour: {fileID: 0}
-  Score: 0
+  SpawnPoint: {fileID: 0}
+  IsTagger: 0
+  SpawnDelay: 3
 --- !u!96 &5855073497977850805
 TrailRenderer:
   serializedVersion: 2
@@ -486,7 +483,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!135 &4191952789962324582
+--- !u!135 &4895260559908609367
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

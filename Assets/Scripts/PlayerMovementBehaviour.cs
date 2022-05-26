@@ -9,6 +9,7 @@ public class PlayerMovementBehaviour : MonoBehaviour
     public float Acceleration;
     public float MaxSpeed;
     public float JumpPower;
+    public float AirAccelerationReduction = 2;
     public GroundColliderBehaviour GroundCollider;
 
     // Start is called before the first frame update
@@ -31,7 +32,12 @@ public class PlayerMovementBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        _rigidbody.AddForce(_moveDirection * Acceleration * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        float acceleration = Acceleration;
+
+        if (!GroundCollider.IsGrounded)
+            acceleration /= AirAccelerationReduction;
+
+        _rigidbody.AddForce(_moveDirection * acceleration * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
         if (_rigidbody.velocity.magnitude > MaxSpeed)
         {
