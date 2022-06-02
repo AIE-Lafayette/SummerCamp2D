@@ -9,6 +9,7 @@ public class TagBehaviour : MonoBehaviour
     public float SpawnDelay = 3;
     public float ScoreMultiplier = 3;
     public float Score;
+    public GameObject TagMarker;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -16,9 +17,15 @@ public class TagBehaviour : MonoBehaviour
             return;
 
         if (IsTagger == true)
+        {
             IsTagger = false;
+            TagMarker.SetActive(false);
+        }
         else
+        {
             IsTagger = true;
+            TagMarker.SetActive(true);
+        }
 
         if (IsTagger == true)
         {

@@ -186,13 +186,13 @@ Here we've added a new float to keep track of how much we want to reduce the the
 
 Let's create a score counter for our game. We'll have the score measure how long each player can survive by having the score increase while they aren't the tagger. Click on the plus icon in the hierarchy tab and select "UI -> Canvas". The canvas is a game object that will be overlayed on our camera and contain all of our UI objects. 
 
-Add a text box to our canvas by right clicking on it and selecting "UI -> Text". Name the text box "P1ScoreText". Right now the text is a bit small. We can increase the size of our font by increasing the value in the "Font Size" section in the inspector window. Set the font size to 33. The text should now disappear. This is because the text is now too big to fit in the text box. We can adjust the width and height of the text box in the "Rect Transform" component in the inpector. Set the width to 400 and the height to 55. Now we'll be able to view our large text. You can change the text in the text box by type under the "Text" section in the inspector. Change the text to read "P1 Score: ". You can change the color of the text in the "Text" component in the inspector.
+Add a textbox to our canvas by right clicking on it and selecting "UI -> Text". Name the text box "P1ScoreText". Right now the text is a bit small. We can increase the size of our font by increasing the value in the "Font Size" section in the inspector window. Set the font size to 33. The text should now disappear. This is because the text is now too big to fit in the text box. We can adjust the width and height of the textbox in the "Rect Transform" component in the inpector. Set the width to 400 and the height to 55. Now we'll be able to view our large text. You can change the text in the textbox by type under the "Text" section in the inspector. Change the text to read "P1 Score: ". You can change the color of the text in the "Text" component in the inspector.
 
-Now we just need to position the text box. I think it would nice if the text box was in the top left corner. We could just drag the text box to the position we want, but there's a more precise way to adjust the position. At the top left of the "Rect Transform" component there should be a square with the words "middle" and "center" around it. This is called an anchor. We can use this to set the origin and the position of our UI element. Click on the square and select the "Top Left" option while holding down the "Alt" key. 
+Now we just need to position the textbox. I think it would nice if it was in the top left corner. We could just drag the textbox to the position we want, but there's a more precise way to adjust the position. At the top left of the "Rect Transform" component there should be a square with the words "middle" and "center" around it. This is called an anchor. We can use this to set the origin and the position of our UI element. Click on the square and select the "Top Left" option while holding down the "Alt" key. 
 
 ![Anchor](Images/Anchor.png)
 
-Our text box will now move to the top left corner of the canvas. Setting the anchor also ensures that our text box will always stay in the same position regardless of the aspect ratio. We'll need to repeat the same steps for player 2's score counter. This time, you'll want to change the anchor to be in the top right.
+Our text box will now move to the top left corner of the canvas. Setting the anchor also ensures that our textbox will always stay in the same position regardless of the aspect ratio. We'll need to repeat the same steps for player 2's score counter. This time, you'll want to change the anchor to be in the top right.
 
 ![NewTextUI](Images/NewTextUI.png)
 
@@ -205,3 +205,56 @@ We need to add two new variables: one to keep track of our current score, and on
 Create a new script called "ScoreBehaviour" and add the following code:
 
 ![ScoreBehaviour](Images/ScoreBehaviour.png)
+
+
+The score script will store a reference to the "TagBehaviour" of the player that it's keeping score for. We don't want to overwrite the text that is already in the textbox. If we did, our textbox would only display the score count without labeling it as such. To prevent this from happening, we'll store the starting text in a variable. We'll then just update the textbox text to be a combination of the start text and the score count.
+
+Back in Unity, attach the new script to both of the textboxes we created. Drag the player whose score the textbox should display in the "Player" slot. Then drag the textbox game object into the "ScoreText" slot. If you play the game now, you should see that a player's score increases when they are not the tagger.
+
+![ScoreIncrease](Images/ScoreIncrease.gif)
+
+It would be nice if our players were able to tell who was the tagger visually. As we have it now, players must remember who the tagger is on their own. We don't have to make a big fancy UI element for this. To show who the tagger is, we'll simply add a game object that hovers over the characters head.
+
+Open the player prefab, and create a new sphere in the hierarchy tab and name it "TagMarker". Set the scale of the sphere to be 0.6 on all axis. Next set the position of the sphere to be 1 on the 1 axis. Let's also create a material for the tag marker so we can change its color. Create a new material like we did before that has a Unlit/Color shader applied. Set the color to be whatever you like. For this example. I'm going to make my marker yellow.
+
+![tagMarker](Images/TagMarker.png)
+
+Once the tag marker material is applied, set the tag marker object to be inactive in the inspector. You can do that by clicking on the checkbox in the top left corner of the inspector tab. 
+
+![tagMarkerTurnOff](Images/TurnOffTagMarker.png)
+
+We only want our tag marker to appear over the player that is currently the tagger. Because of this, we'll need to turn the marker off by default and turn it on in code. Update the "OnCollisionEnter" function in the TagBehaviour script with the following code:
+
+![TagMarkerCode](Images/TagMarkerCode.png)
+
+There isn't too much to add here. All we have to do is create a variable to store the tag marker. Once we have that variable, we can use the "SetActive" function turn the object on or off based on whether or not the player is the tagger. Back in Unity, open the player prefab and drag and drop the tag marker into the tag marker slot. In your active scene, make the tag marker for the player that should start of as the tagger active in the scene by clicking the checkbox in the top left of the inspector. If you play the game now, you should see that our players now have a marker above their heads when they are the tagger.
+
+![MarkerUpdate](Images/MarkerUpdate.gif)
+
+# Adding Effects
+
+Our game is looking pretty good! We can take this a step further though by adding some effects. To start we'll make a trail extend from the player while moving. To add a trail easily to objects in Unity, we just need to add a "TrailRenderer" component. Add this component to the player prefab. At the top of the component should be a graph called "Width". This controls the width of the trail over time. For this, I think it would be nice if our trail started wide and narrowed as it progressed. To do this, we'll need to add another key. To add a key at the end, right click on the end of the width line and select add key.
+
+![AddKey](Images/AddKey.png)
+
+Once the key is added, click and hold to drag it all the way down. This should give us a nice curve from start to end.
+
+![Curve](Images/Curve.png)
+
+Now that we have the width sorted out, lets tweak the length. We're going to want to specify how long pieces of our trail should stick around for. We can tweak this by modifying the "Time" variable directly underneath the graph. You can make this number whatever you like. Just remember that the longer the value, the longer your trail will be. I'm going to set mine to 0.3.
+
+Go back to our players in the scene and select one. Now we'll edit the color so that the trail is unique for both players. Click on the "Color" section in the trail renderer component. This will open the gradient editor. 
+
+![GradientEditor](Images/GradientEditor.png)
+
+We don't have to pick a fixed color for our trail. The gradient editor makes it really easy to change the color of our trail from the start to the end. The top two knotches control the transparency over time, while the bottom two notches control the color over time. For my player 1 character, I want their trail to start red and fade out into orange. To do this, I'll first need to set the starting color. To set the starting color, click the first knotch on the bottom and then select the "Color" section underneath it. After changing the color, it should give you something that looks like this:
+
+![GradientEditorColor](Images/GradientEditorColor.png)
+
+Now our trail will start red, but gradually transition to white. To change the end color, we just need to do the same thing for the last knotch on the bottom. I also want the trail to fade out at the end, so I'm going to adjust the last knotch at the top. The color option should now change to an alpha slider. I'm going to set my alpha at the end to 150, but this can be whatever you want it to be. Repeat the same steps with the other player, but give them a unique color.
+
+![Trail](Images/Trail.gif)
+
+Now lets add an effect for when a player gets caught. We don't have any art assets, but there's a very simple way we can make something that resembles an explosion. We'll be using a technique that's used a lot in Vlambeer games. The way some of their games ([like UltraBugs](https://www.youtube.com/watch?v=eH5EfVCgHYM&ab_channel=VentureBeat)) make an explosion is by simply spawning a black circle, and then spawning a larger white circle. That combined with good camera shake is enough to sell an explosion. We'll be able to replicate this using a particle system. 
+
+Right click in the hierarchy tab and select "Effects -> Particle System". The particle system likely won't spawn at the origin and will be rotated. Right click on the component that says "Transform"  in the inspector and select "Reset" to change its values to the default. Under the transform component, you should see the component to modify the particle system. The first thing we're going to want to change here is the duration of the system. Our explosion is going to be quick, so we won't need it to be active for long. Change it from being the default 5 to 1. They should only happen once, so next we'll want to uncheck the checkbox right underneath that says "Looping". Our explosion particles should also despawn quickly, so we'll want to decrease the start lifetime. We can change the lifetime to be 0.2. 

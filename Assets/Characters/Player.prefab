@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811938059065261780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.56, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 8942734764231028277}
@@ -356,6 +356,7 @@ MonoBehaviour:
   Acceleration: 0
   MaxSpeed: 0
   JumpPower: 0
+  AirAccelerationReduction: 2
   GroundCollider: {fileID: 8435836481069740249}
 --- !u!114 &332718521904795675
 MonoBehaviour:
@@ -385,6 +386,9 @@ MonoBehaviour:
   SpawnPoint: {fileID: 0}
   IsTagger: 0
   SpawnDelay: 3
+  ScoreMultiplier: 3
+  Score: 0
+  TagMarker: {fileID: 811938059065261780}
 --- !u!96 &5855073497977850805
 TrailRenderer:
   serializedVersion: 2
@@ -393,7 +397,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8942734764231028273}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
