@@ -269,5 +269,5 @@ Right click in the hierarchy tab and select "Effects -> Particle System". The pa
  - Check the "Color over Lifetime" section to make the color of the particle change over time. Part of the reason this works as an explosion is the contrast of color. Click on the color to open the gradient editor. Select the drop down in the top right, and change the mode from blend to fixed. Click on the tick in the bottom left corner of the color bar. Change the location of the tick to be at 50%. Now change the color of the tick to be black. 
  - Enable the "Size over Lifetime" section. We don't need to modify anything here since the sizes increases linearly already.
 
-![Trail](Images/Trail.gif)
+![Explosion](Images/ExplosionParticle.gif)
  
