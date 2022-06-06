@@ -259,6 +259,15 @@ Now lets add an effect for when a player gets caught. We don't have any art asse
 
 Right click in the hierarchy tab and select "Effects -> Particle System". The particle system likely won't spawn at the origin and will be rotated. Right click on the component that says "Transform"  in the inspector and select "Reset" to change its values to the default. Under the transform component, you should see the component to modify the particle system. Make the following modifications to the component:
 
- - Change the duration to be 1 second instead of 5. This will make our particle.
+ - Change the duration to be 1 second instead of 5. This will make our particle emitter play for a short amount of time.
  - Turn off "Looping" so that the explosion only spawns once.
- -  Our explosion particles should also despawn quickly, so we'll want to decrease the start lifetime. We can change the lifetime to be 0.2. 
+ - Change the lifetime to be 0.2. This is so that the particles that are spawned die out quickly.
+ - Change the start speed to 0. This will make our particles stand still when they are spawned.
+ - Set the start size of the particle to 10. A larger particles size will make our explosion easier to notice.
+ - Set the simulation speed to 2 so that the explosion spawns and dies quickly. 
+ - Under the emission section, change the rate over time to be 0. This limit the amount of particles that will be generated over time. Below, add a new burst by clicking the plus button. This will make one particle burst out.
+ - Check the "Color over Lifetime" section to make the color of the particle change over time. Part of the reason this works as an explosion is the contrast of color. Click on the color to open the gradient editor. Select the drop down in the top right, and change the mode from blend to fixed. Click on the tick in the bottom left corner of the color bar. Change the location of the tick to be at 50%. Now change the color of the tick to be black. 
+ - Enable the "Size over Lifetime" section. We don't need to modify anything here since the sizes increases linearly already.
+
+![Trail](Images/Trail.gif)
+ 
