@@ -1,3 +1,6 @@
+# Cube Tag
+In this tutorial, we'll be creating a simple game of tag using two cubes as a our characters. We'll also see how we can use some simple techniques to add some life to our game.
+
 # Creating Player Movement
 To start, create a platform for the player to walk on. To add a game object to the scene, either right-click or click the plus icon in the hierarchy window and select 3D object -> cube. Name this cube "Floor". 
 
@@ -268,10 +271,11 @@ Right click in the hierarchy tab and select "Effects -> Particle System". The pa
  - Under the emission section, change the rate over time to be 0. This limit the amount of particles that will be generated over time. Below, add a new burst by clicking the plus button. This will make one particle burst out.
  - Check the "Color over Lifetime" section to make the color of the particle change over time. Part of the reason this works as an explosion is the contrast of color. Click on the color to open the gradient editor. Select the drop down in the top right, and change the mode from blend to fixed. Click on the tick in the bottom left corner of the color bar. Change the location of the tick to be at 50%. Now change the color of the tick to be black. 
  - Enable the "Size over Lifetime" section. We don't need to modify anything here since the sizes increases linearly already.
+ - Set the "Stop Action" to destroy so that the explosion gameobjects are destroyed after spawning.
 
 ![Explosion](Images/ExplosionParticle.gif)
  
-We'll have to add some code to our "TagBehaviour" to make the explosion spawn. Update your code to look like this:
+Make the explosion gameobject in the scene a prefab and remove the instance in the scene. Next,we'll have to add some code to our "TagBehaviour" to make the explosion spawn. Update your code to look like this:
 
 ![ExplosionSpawn](Images/ExplosionSpawn.png)
 
@@ -295,4 +299,12 @@ The specifics about Enumerators and how the implementation here works is outside
 
 The "Shake" function will be called outside of this script. All it will do is store the current time and call the function we made to shake the camera. We'll need to update our "TagBehaviour" so that it shakes the screen when a player is caught. 
 
-![ScreenShakeScript](Images/ScreenShakeScript.png)
+![TagShake](Images/TagShake.png)
+
+Simlar to the explosion, we'll just need to give our script a reference to a "ScreenShakeBehaviour" and call the "Shake" function when a player has been caught. Back in Unity, add the screen shake script to our main camera, and modify it to look like this:
+
+![ScreenShakeValues](Images/ScreenShakeValues.png)
+
+Drag the camera into the "ScreenShake" slots on the "TagBehaviour" for both of the players and play the game. 
+
+![ExplosionDeathShake](Images/ExplosionDeathShake.gif)
