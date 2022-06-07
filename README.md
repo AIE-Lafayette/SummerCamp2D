@@ -271,3 +271,28 @@ Right click in the hierarchy tab and select "Effects -> Particle System". The pa
 
 ![Explosion](Images/ExplosionParticle.gif)
  
+We'll have to add some code to our "TagBehaviour" to make the explosion spawn. Update your code to look like this:
+
+![ExplosionSpawn](Images/ExplosionSpawn.png)
+
+We'll need to create a variable to store the explosion prefab we just created. We'll then use the "Instantiate" function to to spawn it when the player is caught. Back in Unity, drag the explosion prefab into the slot on the players that says "Explosion". 
+
+![ExplosionDeath](Images/ExplosionDeath.gif)
+
+We can add more effects make our explosion have more impact. A good way to make anything have more impact is to add screen shake. Whenever a player explodes, we'll shake the camera to give the feeling that the entire game world was shaken by the force of the explosion. Create a new script called "ScreenShakeBehaviour" and add the following code:
+
+
+![ScreenShakeScript](Images/ScreenShakeScript.png)
+
+The general idea here is to make the camera move to random positions quickly in a short amount of time. This rapid movement is what will make the screen shake effect. Making the camera move to random positions quickly can easily get confusing for the player, so we'll need to create some variables that will allow us to tweak the screen shake to our liking. 
+- TimeBetweenShakes - Stores the amount of time that the game will wait before moving the camera to a new position.
+- Strength - How far the new random position can be from the camera starting point.
+- Duration - The amount of time the camera will be shaking.
+- _shakeStartTime - Stores what time it was when the camera started shaking.
+- _startPosition - Stores where the camera was at the start of the shake.
+
+The specifics about Enumerators and how the implementation here works is outside the scope of the tutorial. Basically, while the timer for shaking isn't up, we will set the camera's position to a new random position. After the new position is set, we'll wait for the given amount of time before a new random position is chosen. After the time is up, we need to set the camera back to its starting position.
+
+The "Shake" function will be called outside of this script. All it will do is store the current time and call the function we made to shake the camera. We'll need to update our "TagBehaviour" so that it shakes the screen when a player is caught. 
+
+![ScreenShakeScript](Images/ScreenShakeScript.png)

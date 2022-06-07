@@ -4,21 +4,32 @@ using UnityEngine;
 
 public class ScreenShakeBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private float _timeBetweenShakes;
-    [SerializeField]
-    private float _strength;
-    [SerializeField]
-    private float _duration;
-    private Vector3 _startPosition;
-    [SerializeField]
-    private bool _shakeEnabled;
+    public float TimeBetweenShakes;
+    public float Strength;
+    public float Duration;
     private float _shakeStartTime;
+    private Vector3 _startPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         _startPosition = transform.position;
+    }
+
+    private IEnumerator StartShake()
+    {
+        while (Time.time - _shakeStartTime < Duration)
+        {
+            Vector3 position = new Vector3(Random.Range(0, Strength), Random.Range(0, Strength), 0);
+
+            transform.position = _startPosition + position;
+
+            yield return new WaitForSeconds(TimeBetweenShakes);
+        }
+
+        transform.position = _startPosition;
+
+        yield return null;
     }
 
     public void Shake()
@@ -27,19 +38,4 @@ public class ScreenShakeBehaviour : MonoBehaviour
         StartCoroutine(StartShake());
     }
 
-    private IEnumerator StartShake()
-    {
-        while (Time.time - _shakeStartTime < _duration)
-        {
-            Vector3 position = new Vector3(Random.Range(0, _strength), Random.Range(0, _strength), 0);
-
-            transform.position = _startPosition + position;
-
-            yield return new WaitForSeconds(_timeBetweenShakes);
-        }
-
-        transform.position = _startPosition;
-
-        yield return null;
-    }
 }

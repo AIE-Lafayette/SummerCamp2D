@@ -10,6 +10,8 @@ public class TagBehaviour : MonoBehaviour
     public float ScoreMultiplier = 3;
     public float Score;
     public GameObject TagMarker;
+    public GameObject Explosion;
+    public ScreenShakeBehaviour ScreenShake;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -29,6 +31,8 @@ public class TagBehaviour : MonoBehaviour
 
         if (IsTagger == true)
         {
+            Instantiate(Explosion, transform.position, transform.rotation);
+            ScreenShake.Shake();
             Invoke("Respawn", SpawnDelay);
             gameObject.SetActive(false);
         }
